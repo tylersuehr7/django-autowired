@@ -7,8 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.0] — Unreleased
 
+### Fixed
+
+- `container.reset()` and the testing fixtures (`autowired_container`,
+  `build_container`, `container_context`) no longer clear the registry.
+  Python caches imported modules, so clearing the registry between tests
+  would strip registrations whose modules were already imported — the next
+  `scan_packages()` call would then be a no-op and resolution would fail.
+  Registrations now persist for the process lifetime; use `container.override()`
+  for per-test binding changes.
+- `InjectorBackend.override()` now rebuilds the injector from scratch with
+  the overrides baked in, instead of creating a child injector. The child
+  injector approach did not affect transitive dependencies of parent-owned
+  singletons, so overrides silently had no effect on deeper graphs.
+
 ### Added
 
+- `examples/django_demo/` — minimal Django project demonstrating ports/adapters,
+  `@injectable`, `AutowiredAppConfig`, `container.get()` in views, and the
+  three testing patterns (pure unit, full wiring, override).
 - `django_autowired.inspect` module with `BindingReport`, `report()`, and
   renderers for `table`, `tree`, `json`, and `mermaid` output.
 - `python -m django_autowired inspect` CLI that scans packages and prints
@@ -36,4 +53,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `ContainerAlreadyInitializedError`, `DuplicateBindingError`,
   `BackendNotInstalledError`, `UnresolvableTypeError`.
 
-[0.1.0]: https://github.com/tylersuehr/django-autowired/releases/tag/v0.1.0
+[0.1.0]: https://github.com/tylersuehr7/django-autowired/releases/tag/v0.1.0

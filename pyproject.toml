@@ -53,11 +53,11 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/tylersuehr/django-autowired"
-Documentation = "https://tylersuehr.github.io/django-autowired"
-Repository = "https://github.com/tylersuehr/django-autowired"
-Issues = "https://github.com/tylersuehr/django-autowired/issues"
-Changelog = "https://github.com/tylersuehr/django-autowired/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/tylersuehr7/django-autowired"
+Documentation = "https://tylersuehr7.github.io/django-autowired"
+Repository = "https://github.com/tylersuehr7/django-autowired"
+Issues = "https://github.com/tylersuehr7/django-autowired/issues"
+Changelog = "https://github.com/tylersuehr7/django-autowired/blob/main/CHANGELOG.md"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/django_autowired"]

@@ -10,7 +10,6 @@ import pytest
 
 from django_autowired import container
 from django_autowired.backends.base import AbstractBackend, BackendName
-from django_autowired.registry import clear_registry
 
 
 class ContainerFactory:
@@ -33,7 +32,10 @@ class ContainerFactory:
         backend: BackendName | str = "injector",
         extra_modules: list[Any] | None = None,
     ) -> AbstractBackend:
-        clear_registry()
+        # Note: we do NOT clear_registry() here. Python caches imported modules,
+        # so clearing would strip away registrations whose modules are already
+        # imported — subsequent scan_packages() calls would then be no-ops.
+        # Use override() for per-test binding changes instead.
         container.reset()
 
         be = container.initialize(
@@ -83,7 +85,6 @@ def container_context(
         with container_context(packages=["myapp.services"]) as backend:
             svc = container.get(MyService)
     """
-    clear_registry()
     container.reset()
     try:
         be = container.initialize(
@@ -97,7 +98,6 @@ def container_context(
         yield be
     finally:
         container.reset()
-        clear_registry()
 
 
 @pytest.fixture
@@ -116,7 +116,6 @@ def autowired_container(request: pytest.FixtureRequest) -> Iterator[AbstractBack
     packages: list[str] = packages_marker.args[0] if packages_marker else []
     backend: str = backend_marker.args[0] if backend_marker else "injector"
 
-    clear_registry()
     container.reset()
 
     be = container.initialize(
@@ -126,17 +125,15 @@ def autowired_container(request: pytest.FixtureRequest) -> Iterator[AbstractBack
     )
     yield be
     container.reset()
-    clear_registry()
 
 
 @pytest.fixture
 def build_container() -> Iterator[ContainerFactory]:
     """Pytest fixture yielding a ``ContainerFactory``.
 
-    The factory calls ``reset()`` before each build. After the test,
-    the container is reset and the registry cleared.
+    The factory calls ``container.reset()`` before each build. After the test,
+    the container is reset.
     """
     factory = ContainerFactory()
     yield factory
     container.reset()
-    clear_registry()

@@ -9,7 +9,7 @@ We recommend [`uv`](https://docs.astral.sh/uv/) for dependency and environment
 management. The Makefile wraps everything else.
 
 ```bash
-git clone https://github.com/tylersuehr/django-autowired
+git clone https://github.com/tylersuehr7/django-autowired
 cd django-autowired
 make install   # creates .venv, installs all extras
 ```

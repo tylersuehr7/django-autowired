@@ -11,7 +11,7 @@ from django_autowired.exceptions import (
     ContainerAlreadyInitializedError,
     ContainerNotInitializedError,
 )
-from django_autowired.registry import clear_registry, get_registry
+from django_autowired.registry import get_registry
 from django_autowired.scanner import scan_packages
 
 T = TypeVar("T")
@@ -50,7 +50,6 @@ def initialize(
 
         if _backend is not None and allow_override:
             _backend = None
-            clear_registry()
 
         scan_packages(*packages, exclude_patterns=exclude_patterns)
 
@@ -97,11 +96,18 @@ def override(bindings: dict[type, Any]) -> None:
 
 
 def reset() -> None:
-    """Tear down the container and clear the registry. For tests only."""
+    """Tear down the container. For tests only.
+
+    Does **not** clear the registry — registrations from already-imported
+    modules are preserved so that ``initialize()`` can rebuild the container
+    without relying on re-scanning (which is a no-op once modules are
+    cached in ``sys.modules``). Use ``registry.clear_registry()`` directly
+    if you need a full wipe (typically only needed by the library's own
+    test suite when it creates ``@injectable`` classes inside test bodies).
+    """
     global _backend  # noqa: PLW0603
     with _lock:
         _backend = None
-        clear_registry()
 
 
 def is_initialized() -> bool:

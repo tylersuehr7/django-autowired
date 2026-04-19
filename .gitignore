@@ -32,3 +32,7 @@ site/
 .coverage
 coverage.xml
 htmlcov/
+
+# Example project artifacts
+examples/**/db.sqlite3
+examples/**/.venv/

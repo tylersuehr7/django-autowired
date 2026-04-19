@@ -38,6 +38,8 @@ class InjectorBackend(AbstractBackend):
         if not _AVAILABLE:
             raise BackendNotInstalledError("injector", "injector")
         self._injector: _injector.Injector | None = None
+        self._registrations: list[Registration] = []
+        self._extra_modules: list[Any] = []
 
     @classmethod
     def name(cls) -> str:
@@ -48,10 +50,9 @@ class InjectorBackend(AbstractBackend):
         registrations: list[Registration],
         extra_modules: list[Any] | None = None,
     ) -> None:
-        modules: list[Any] = [_build_module(registrations)]
-        if extra_modules:
-            modules.extend(extra_modules)
-        self._injector = _injector.Injector(modules)
+        self._registrations = list(registrations)
+        self._extra_modules = list(extra_modules or [])
+        self._injector = self._construct([])
 
     def get(self, cls: type[T]) -> T:
         assert self._injector is not None
@@ -61,16 +62,19 @@ class InjectorBackend(AbstractBackend):
             raise UnresolvableTypeError(cls, str(exc)) from exc
 
     def override(self, bindings: dict[type, Any]) -> None:
+        # Rebuild the injector from scratch with overrides appended as the
+        # final module. This is required because injector's singleton scope
+        # is owned by the parent injector — a child injector that overrides
+        # a transitive dependency does not affect a parent-constructed
+        # singleton. Rebuilding avoids that trap.
         assert self._injector is not None
+        self._injector = self._construct([_build_override_module(bindings)])
 
-        def _override_module(binder: _injector.Binder) -> None:
-            for iface, impl in bindings.items():
-                if isinstance(impl, type):
-                    binder.bind(iface, to=impl)
-                else:
-                    binder.bind(iface, to=impl)
-
-        self._injector = self._injector.create_child_injector([_override_module])
+    def _construct(self, extra_modules: list[Any]) -> _injector.Injector:
+        modules: list[Any] = [_build_module(self._registrations)]
+        modules.extend(self._extra_modules)
+        modules.extend(extra_modules)
+        return _injector.Injector(modules)
 
     def raw(self) -> _injector.Injector:
         """Return the underlying ``injector.Injector``."""
@@ -132,3 +136,16 @@ def _auto_inject(cls: type) -> None:
         return
 
     setattr(cls, "__init__", _injector.inject(init))
+
+
+def _build_override_module(bindings: dict[type, Any]) -> Any:
+    """Build a module that applies override bindings."""
+
+    def configure(binder: _injector.Binder) -> None:
+        for iface, impl in bindings.items():
+            if isinstance(impl, type):
+                binder.bind(iface, to=impl, scope=_injector.singleton)
+            else:
+                binder.bind(iface, to=impl)
+
+    return configure

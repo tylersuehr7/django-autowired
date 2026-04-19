@@ -1,8 +1,8 @@
 site_name: django-autowired
 site_description: Spring Boot-style @injectable autowiring for Python
-site_url: https://tylersuehr.github.io/django-autowired
-repo_url: https://github.com/tylersuehr/django-autowired
-repo_name: tylersuehr/django-autowired
+site_url: https://tylersuehr7.github.io/django-autowired
+repo_url: https://github.com/tylersuehr7/django-autowired
+repo_name: tylersuehr7/django-autowired
 edit_uri: edit/main/docs/
 
 theme:
