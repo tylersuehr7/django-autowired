@@ -103,15 +103,15 @@ uv add "django-autowired[django,injector]"
 
 ## Documentation
 
-Full docs at **[tylersuehr.github.io/django-autowired](https://tylersuehr.github.io/django-autowired)**.
+Full docs at **[tylersuehr7.github.io/django-autowired](https://tylersuehr7.github.io/django-autowired)**.
 
-- [Quickstart](https://tylersuehr.github.io/django-autowired)
-- [`@injectable` guide](https://tylersuehr.github.io/django-autowired/guide/injectable)
-- [Scopes](https://tylersuehr.github.io/django-autowired/guide/scopes)
-- [Django integration](https://tylersuehr.github.io/django-autowired/integrations/django)
-- [FastAPI integration](https://tylersuehr.github.io/django-autowired/integrations/fastapi)
-- [Flask integration](https://tylersuehr.github.io/django-autowired/integrations/flask)
-- [Testing guide](https://tylersuehr.github.io/django-autowired/guide/testing)
+- [Quickstart](https://tylersuehr7.github.io/django-autowired)
+- [`@injectable` guide](https://tylersuehr7.github.io/django-autowired/guide/injectable)
+- [Scopes](https://tylersuehr7.github.io/django-autowired/guide/scopes)
+- [Django integration](https://tylersuehr7.github.io/django-autowired/integrations/django)
+- [FastAPI integration](https://tylersuehr7.github.io/django-autowired/integrations/fastapi)
+- [Flask integration](https://tylersuehr7.github.io/django-autowired/integrations/flask)
+- [Testing guide](https://tylersuehr7.github.io/django-autowired/guide/testing)
 
 ## License
 
