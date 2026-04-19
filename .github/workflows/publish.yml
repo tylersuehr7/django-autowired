@@ -33,10 +33,10 @@ jobs:
       - name: Build
         run: uv build
 
-      - name: Verify wheel installs
+      - name: Verify wheel installs in a clean env
         run: |
-          python -m venv /tmp/verify
-          /tmp/verify/bin/pip install dist/*.whl
+          uv venv --python 3.13 /tmp/verify
+          uv pip install --python /tmp/verify/bin/python dist/*.whl
           /tmp/verify/bin/python -c "from django_autowired import injectable, container; print('OK')"
 
       - uses: actions/upload-artifact@v4
