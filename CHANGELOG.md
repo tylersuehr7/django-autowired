@@ -9,6 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- `django_autowired.inspect` module with `BindingReport`, `report()`, and
+  renderers for `table`, `tree`, `json`, and `mermaid` output.
+- `python -m django_autowired inspect` CLI that scans packages and prints
+  a report of registered `@injectable` bindings without requiring a running
+  container. Supports `--format` and `--exclude`.
 - `@injectable` decorator with optional `bind_to` and `scope`.
 - `Scope` enum: `SINGLETON`, `TRANSIENT`, `THREAD`.
 - Thread-safe `_Registry` that detects duplicate interface bindings at decoration time.

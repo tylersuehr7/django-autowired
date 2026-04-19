@@ -72,6 +72,7 @@ nav:
       - Container: guide/container.md
       - Extra modules: guide/extra_modules.md
       - Testing: guide/testing.md
+      - Inspect: guide/inspect.md
   - Backends:
       - injector: backends/injector.md
       - lagom: backends/lagom.md

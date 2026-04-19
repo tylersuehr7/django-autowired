@@ -1,6 +1,6 @@
 """django-autowired — Spring Boot-style @injectable autowiring for Python."""
 
-from django_autowired import container
+from django_autowired import container, inspect
 from django_autowired.exceptions import (
     AutowiredError,
     BackendNotInstalledError,
@@ -21,6 +21,7 @@ __all__ = [
     "injectable",
     "Scope",
     "container",
+    "inspect",
     "get_injector",
     "AutowiredError",
     "ContainerNotInitializedError",

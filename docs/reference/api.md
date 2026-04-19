@@ -50,6 +50,16 @@ Full API reference, generated from docstrings.
 ::: django_autowired.integrations.flask.extension.Autowired
 ::: django_autowired.integrations.flask.extension.inject_dep
 
+## Inspect
+
+::: django_autowired.inspect.BindingReport
+::: django_autowired.inspect.scan
+::: django_autowired.inspect.report
+::: django_autowired.inspect.render_table
+::: django_autowired.inspect.render_tree
+::: django_autowired.inspect.render_json
+::: django_autowired.inspect.render_mermaid
+
 ## Testing utilities
 
 ::: django_autowired.testing.autowired_container

@@ -1,4 +1,4 @@
-.PHONY: help install sync test test-injector test-lagom test-wireup test-dishka lint format typecheck cov docs docs-serve clean build
+.PHONY: help install sync test test-injector test-lagom test-wireup test-dishka lint format typecheck cov docs docs-serve clean build inspect
 
 help:
 	@echo "django-autowired — development commands"
@@ -18,6 +18,8 @@ help:
 	@echo "  make docs-serve    Serve MkDocs site locally"
 	@echo "  make build         Build wheel + sdist"
 	@echo "  make clean         Remove build artifacts and caches"
+	@echo "  make inspect PKG=<dotted.path> [FORMAT=table|tree|json|mermaid]"
+	@echo "                     Inspect @injectable bindings in a package"
 
 install:
 	uv sync --all-extras
@@ -61,6 +63,13 @@ docs-serve:
 
 build:
 	uv build
+
+inspect:
+	@if [ -z "$(PKG)" ]; then \
+		echo "usage: make inspect PKG=<dotted.path> [FORMAT=table|tree|json|mermaid]"; \
+		exit 2; \
+	fi
+	uv run python -m django_autowired inspect $(PKG) --format $(or $(FORMAT),table)
 
 clean:
 	rm -rf build/ dist/ *.egg-info src/*.egg-info

@@ -27,6 +27,7 @@ packages to scan, and the rest happens at boot.
 | **Fail loud at boot** | Duplicate bindings, missing backends, and unresolvable types raise typed errors. |
 | **Test-friendly** | Pytest fixtures, overrides, and a context manager ship with the library. |
 | **Thread-safe registry** | Concurrent registration is safe by construction. |
+| **Introspection** | `python -m django_autowired inspect` prints your DI graph as a table, tree, JSON, or Mermaid diagram. |
 
 ## Quickstart (Django)
 
