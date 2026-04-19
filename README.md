@@ -4,8 +4,8 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/django-autowired.svg)](https://pypi.org/project/django-autowired/)
 [![Python versions](https://img.shields.io/pypi/pyversions/django-autowired.svg)](https://pypi.org/project/django-autowired/)
-[![License](https://img.shields.io/pypi/l/django-autowired.svg)](https://github.com/tylersuehr/django-autowired/blob/main/LICENSE)
-[![CI](https://github.com/tylersuehr/django-autowired/actions/workflows/ci.yml/badge.svg)](https://github.com/tylersuehr/django-autowired/actions/workflows/ci.yml)
+[![License](https://img.shields.io/pypi/l/django-autowired.svg)](https://github.com/tylersuehr7/django-autowired/blob/main/LICENSE)
+[![CI](https://github.com/tylersuehr7/django-autowired/actions/workflows/ci.yml/badge.svg)](https://github.com/tylersuehr7/django-autowired/actions/workflows/ci.yml)
 
 ## Why
 
