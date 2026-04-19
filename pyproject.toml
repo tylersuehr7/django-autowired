@@ -1,0 +1,110 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "django-autowired"
+version = "0.1.0"
+description = "Spring Boot-style @injectable autowiring for Python — zero manual wiring, any DI backend."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.13"
+authors = [
+    { name = "Tyler R. Suehr", email = "tyler@vitablehealth.com" },
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Framework :: Django :: 5.1",
+    "Framework :: FastAPI",
+    "Framework :: Flask",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+keywords = ["dependency-injection", "autowiring", "django", "fastapi", "flask", "injector"]
+dependencies = []
+
+[project.optional-dependencies]
+injector = ["injector>=0.21"]
+lagom = ["lagom>=2.6"]
+wireup = ["wireup>=0.14"]
+dishka = ["dishka>=0.14"]
+django = ["Django>=4.2"]
+fastapi = ["fastapi>=0.110", "anyio>=4.0"]
+flask = ["Flask>=3.0"]
+testing = ["pytest>=8.0", "pytest-asyncio>=0.23"]
+dev = [
+    "django-autowired[injector,lagom,wireup,dishka,django,fastapi,flask,testing]",
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "pytest-cov>=5.0",
+    "mypy>=1.9",
+    "ruff>=0.4",
+    "mkdocs>=1.5",
+    "mkdocs-material>=9.6,<9.7",
+    "mkdocstrings[python]>=0.24",
+]
+
+[project.urls]
+Homepage = "https://github.com/tylersuehr/django-autowired"
+Documentation = "https://tylersuehr.github.io/django-autowired"
+Repository = "https://github.com/tylersuehr/django-autowired"
+Issues = "https://github.com/tylersuehr/django-autowired/issues"
+Changelog = "https://github.com/tylersuehr/django-autowired/blob/main/CHANGELOG.md"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/django_autowired"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "autowired_packages: packages to scan for the autowired_container fixture",
+    "autowired_backend: backend name for the autowired_container fixture",
+]
+asyncio_mode = "auto"
+
+[tool.mypy]
+python_version = "3.13"
+warn_unused_configs = true
+mypy_path = "src"
+check_untyped_defs = true
+disallow_untyped_defs = false
+warn_redundant_casts = true
+warn_unused_ignores = true
+no_implicit_optional = true
+strict_equality = true
+
+[[tool.mypy.overrides]]
+# Third-party DI libraries without complete type stubs.
+module = ["lagom", "lagom.*", "wireup", "wireup.*", "dishka", "dishka.*", "injector"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# Django's apps module lacks py.typed in older releases.
+module = ["django.apps"]
+ignore_missing_imports = true
+
+[tool.ruff]
+src = ["src", "tests"]
+line-length = 99
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+# UP046/UP047 push PEP 695 generic syntax — we use TypeVar for readability.
+# B010 flags `setattr` for known attrs, but we need it to bypass mypy's
+# method-assign warning on dynamic @inject application.
+ignore = ["UP046", "UP047", "B010"]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests use pytest.importorskip before imports, FastAPI Depends() in defaults, and unused test fixtures.
+"tests/**/*.py" = ["E402", "F401", "F811", "B008"]
+
+[tool.coverage.run]
+source = ["src/django_autowired"]
