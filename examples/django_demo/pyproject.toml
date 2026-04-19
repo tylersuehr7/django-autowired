@@ -1,0 +1,13 @@
+[project]
+name = "django-autowired-demo"
+version = "0.0.0"
+description = "Demo Django project showcasing django-autowired."
+requires-python = ">=3.13"
+dependencies = [
+    "Django>=5.0,<6.0",
+    "django-autowired[django,injector,testing] @ file:///${PROJECT_ROOT}/../..",
+    "pytest-django>=4.8",
+]
+
+[tool.uv.sources]
+django-autowired = { path = "../..", editable = true }
