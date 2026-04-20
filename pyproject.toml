@@ -8,7 +8,7 @@ version = "0.2.1"
 description = "Spring Boot-style @injectable autowiring for Python — zero manual wiring, any DI backend."
 readme = "README.md"
 license = {text = "MIT"}
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 authors = [
     { name = "Tyler R. Suehr", email = "tyler@vitablehealth.com" },
 ]
@@ -23,6 +23,7 @@ classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.14",
     "Topic :: Software Development :: Libraries :: Python Modules",
@@ -71,7 +72,7 @@ markers = [
 asyncio_mode = "auto"
 
 [tool.mypy]
-python_version = "3.13"
+python_version = "3.12"
 warn_unused_configs = true
 mypy_path = "src"
 check_untyped_defs = true
